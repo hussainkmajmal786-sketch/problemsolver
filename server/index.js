@@ -29,7 +29,10 @@ app.set('trust proxy', 1); // Trust first proxy (for rate limiting behind revers
 app.use(helmet({ contentSecurityPolicy: false }));
 
 const corsOrigins = process.env.NODE_ENV === 'production'
-  ? (process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : false)
+  ? [
+      process.env.FRONTEND_URL,
+      'https://problemslver-jwhp.vercel.app',
+    ].filter(Boolean)
   : ['http://localhost:5173', 'http://localhost:3000'];
 
 app.use(cors({
