@@ -16,6 +16,7 @@ import solutionRoutes from './routes/solutions.js';
 import commentRoutes from './routes/comments.js';
 import userRoutes from './routes/users.js';
 import statsRoutes from './routes/stats.js';
+import adminRoutes from './routes/admin.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -86,6 +87,7 @@ app.use('/api/solutions', solutionRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/admin', adminRoutes);
 
 // ─── Serve Frontend in Production ────────────────
 if (process.env.NODE_ENV === 'production') {

@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS profiles (
   avatar TEXT,
   reputation INTEGER DEFAULT 0,
   badges TEXT[] DEFAULT '{}',
+  is_admin BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 

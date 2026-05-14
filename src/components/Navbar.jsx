@@ -136,6 +136,17 @@ export default function Navbar() {
                       >
                         Submit Problem
                       </Link>
+                      {user.is_admin && (
+                        <Link
+                          to="/admin"
+                          className="dropdown-item"
+                          onClick={() => setProfileOpen(false)}
+                          id="dropdown-admin"
+                          style={{ color: '#a78bfa' }}
+                        >
+                          ⚙️ Admin Dashboard
+                        </Link>
+                      )}
                       <div className="divider" />
                       <button
                         className="dropdown-item text-danger"
@@ -191,13 +202,25 @@ export default function Navbar() {
               </Link>
             ))}
             {user && (
-              <Link
-                to="/submit"
-                className="btn btn-primary mobile-submit-btn"
-                onClick={() => setMobileOpen(false)}
-              >
-                <FiPlus size={16} /> Submit Problem
-              </Link>
+              <>
+                <Link
+                  to="/submit"
+                  className="btn btn-primary mobile-submit-btn"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <FiPlus size={16} /> Submit Problem
+                </Link>
+                {user.is_admin && (
+                  <Link
+                    to="/admin"
+                    className="mobile-nav-link"
+                    onClick={() => setMobileOpen(false)}
+                    style={{ color: '#a78bfa' }}
+                  >
+                    ⚙️ Admin Dashboard
+                  </Link>
+                )}
+              </>
             )}
           </motion.div>
         )}

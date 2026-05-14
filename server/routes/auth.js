@@ -57,6 +57,7 @@ router.post('/register', registerRules, handleValidation, async (req, res, next)
         avatar: profile.avatar,
         reputation: profile.reputation,
         badges: profile.badges,
+        is_admin: profile.is_admin || false,
         createdAt: profile.created_at,
       },
     });
@@ -95,6 +96,7 @@ router.post('/login', loginRules, handleValidation, async (req, res, next) => {
         avatar: profile.avatar,
         reputation: profile.reputation,
         badges: profile.badges,
+        is_admin: profile.is_admin || false,
         createdAt: profile.created_at,
       },
     });
@@ -117,6 +119,7 @@ router.get('/me', auth, async (req, res) => {
       avatar: u.avatar,
       reputation: u.reputation,
       badges: u.badges,
+      is_admin: u.is_admin || false,
       createdAt: u.created_at,
     },
   });
@@ -151,6 +154,7 @@ router.put('/profile', auth, async (req, res, next) => {
         avatar: data.avatar,
         reputation: data.reputation,
         badges: data.badges,
+        is_admin: data.is_admin || false,
         createdAt: data.created_at,
       },
     });

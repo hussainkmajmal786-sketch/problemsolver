@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import ErrorBoundary from './components/ErrorBoundary';
+import AdminRoute from './components/AdminRoute';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import LandingPage from './pages/LandingPage';
@@ -13,6 +14,10 @@ import ProfilePage from './pages/ProfilePage';
 import LeaderboardPage from './pages/LeaderboardPage';
 import AboutPage from './pages/AboutPage';
 import AuthPage from './pages/AuthPage';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminProblems from './pages/admin/AdminProblems';
+import AdminComments from './pages/admin/AdminComments';
 
 export default function App() {
   return (
@@ -31,6 +36,11 @@ export default function App() {
               <Route path="/leaderboard" element={<LeaderboardPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/auth" element={<AuthPage />} />
+              {/* Admin Routes */}
+              <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+              <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
+              <Route path="/admin/problems" element={<AdminRoute><AdminProblems /></AdminRoute>} />
+              <Route path="/admin/comments" element={<AdminRoute><AdminComments /></AdminRoute>} />
             </Routes>
             <Footer />
           </ErrorBoundary>
@@ -52,3 +62,4 @@ export default function App() {
     </BrowserRouter>
   );
 }
+
