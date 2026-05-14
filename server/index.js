@@ -7,6 +7,7 @@ import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { existsSync } from 'fs';
 import errorHandler from './middleware/errorHandler.js';
 
 // Route imports
@@ -96,13 +97,18 @@ app.use('/api/admin', adminRoutes);
 // ─── Serve Frontend in Production ────────────────
 if (process.env.NODE_ENV === 'production') {
   const distPath = path.join(__dirname, '..', 'dist');
-  app.use(express.static(distPath));
-  app.use((req, res, next) => {
-    if (req.path.startsWith('/api')) {
-      return next(); // Let the error handler catch API 404s
-    }
-    res.sendFile(path.join(distPath, 'index.html'));
-  });
+  if (existsSync(distPath)) {
+    console.log('📂 Serving frontend from', distPath);
+    app.use(express.static(distPath));
+    app.use((req, res, next) => {
+      if (req.path.startsWith('/api')) {
+        return next(); // Let the error handler catch API 404s
+      }
+      res.sendFile(path.join(distPath, 'index.html'));
+    });
+  } else {
+    console.log('⚠️  dist/ folder not found — frontend not served. API-only mode.');
+  }
 }
 
 // ─── Error Handler ───────────────────────────────
