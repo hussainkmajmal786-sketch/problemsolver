@@ -1,6 +1,5 @@
 import 'dotenv/config';
 import express from 'express';
-import { onRequest } from 'firebase-functions/v2/https';
 import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -100,29 +99,25 @@ if (process.env.NODE_ENV === 'production') {
 // ─── Error Handler ───────────────────────────────
 app.use(errorHandler);
 
-// ─── Firebase Cloud Function Export ───────────────
-export const api = onRequest({ region: 'us-central1' }, app);
+// ─── Start Server ─────────────────────────────────
+const server = app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
+  console.log(`📦 Database: Supabase (${process.env.SUPABASE_URL})`);
+});
 
-// ─── Start Server (Local Dev Only) ────────────────
-if (process.env.NODE_ENV !== 'production') {
-  const server = app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
-    console.log(`📦 Database: Supabase (${process.env.SUPABASE_URL})`);
+// ─── Graceful Shutdown ───────────────────────────
+const shutdown = (signal) => {
+  console.log(`\n${signal} received. Shutting down...`);
+  server.close(() => {
+    console.log('💤 Server shut down.');
+    process.exit(0);
   });
+  setTimeout(() => process.exit(1), 10000);
+};
 
-  const shutdown = (signal) => {
-    console.log(`\n${signal} received. Shutting down...`);
-    server.close(() => {
-      console.log('💤 Server shut down.');
-      process.exit(0);
-    });
-    setTimeout(() => process.exit(1), 10000);
-  };
-
-  process.on('SIGTERM', () => shutdown('SIGTERM'));
-  process.on('SIGINT', () => shutdown('SIGINT'));
-  process.on('unhandledRejection', (err) => {
-    console.error('❌ Unhandled Rejection:', err);
-    shutdown('UNHANDLED_REJECTION');
-  });
-}
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
+process.on('unhandledRejection', (err) => {
+  console.error('❌ Unhandled Rejection:', err);
+  shutdown('UNHANDLED_REJECTION');
+});
