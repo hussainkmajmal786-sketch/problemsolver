@@ -33,7 +33,7 @@ const corsOrigins = process.env.NODE_ENV === 'production'
   ? [
       process.env.FRONTEND_URL,
       'https://problemsolver-navy.vercel.app',
-      'https://problemsolver-api-6vof.onrender.com',
+      'https://problemsolver-api-6vcf.onrender.com',
     ].filter(Boolean)
   : ['http://localhost:5173', 'http://localhost:3000'];
 
