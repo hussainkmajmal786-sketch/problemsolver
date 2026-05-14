@@ -91,7 +91,10 @@ app.use('/api/stats', statsRoutes);
 if (process.env.NODE_ENV === 'production') {
   const distPath = path.join(__dirname, '..', 'dist');
   app.use(express.static(distPath));
-  app.get('*', (req, res) => {
+  app.use((req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next(); // Let the error handler catch API 404s
+    }
     res.sendFile(path.join(distPath, 'index.html'));
   });
 }
