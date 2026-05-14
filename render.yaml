@@ -1,0 +1,28 @@
+# render.yaml — Render.com Blueprint for ProblemSolver
+# Deploy: Push to GitHub → Connect repo in Render dashboard → Use this blueprint
+
+services:
+  # ─── Backend API Server ─────────────────────────
+  - type: web
+    name: problemsolver-api
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: SUPABASE_URL
+        sync: false # Set manually in Render dashboard
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        sync: false # e.g., https://problemsolver.vercel.app
+    autoDeploy: true
+    healthCheckPath: /api/health
