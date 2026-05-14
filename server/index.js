@@ -31,7 +31,8 @@ app.use(helmet({ contentSecurityPolicy: false }));
 const corsOrigins = process.env.NODE_ENV === 'production'
   ? [
       process.env.FRONTEND_URL,
-      'https://problemslver-jwhp.vercel.app',
+      'https://problemslver-8ejo.vercel.app',
+      'https://problemsolver-api-7alz.onrender.com',
     ].filter(Boolean)
   : ['http://localhost:5173', 'http://localhost:3000'];
 
